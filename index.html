@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Родословная Нади</title>
+<style>
+:root {
+  --bg: #F4F2EC; --paper: #FFFFFF; --ink: #1E2124; --muted: #6A6F75; --rule: #D9D5CC;
+  --fam: #2F6FD6; --doc: #1F8A4C; --hyp: #C9741A; --pat: #8A8F96; --grp: #7B5EA7; --live: #4A5568;
+  --edge: #8C9096; --panel: #FFFFFF; --shadow: 0 8px 28px rgba(0,0,0,.18);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #15171A; --paper: #1E2125; --ink: #E8E6E1; --muted: #9AA0A6; --rule: #343840;
+    --fam: #6EA0F0; --doc: #4CC283; --hyp: #E9A04B; --pat: #9AA0A6; --grp: #B39BE0; --live: #A6B0BD;
+    --edge: #6E747C; --panel: #1E2125; --shadow: 0 8px 28px rgba(0,0,0,.5);
+  }
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+header { padding: 14px 20px 10px; display: flex; flex-wrap: wrap; gap: 10px 24px; align-items: flex-end; justify-content: space-between; border-bottom: 1px solid var(--rule); }
+header h1 { margin: 0; font-size: 22px; line-height: 1.2; }
+header .sub { color: var(--muted); font-size: 14px; margin-top: 4px; max-width: 900px; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 12px; font-size: 12.5px; color: var(--muted); align-items: center; }
+.lg { display: inline-flex; align-items: center; gap: 6px; }
+.lg i { width: 18px; height: 12px; border-radius: 3px; border: 2px solid; display: inline-block; background: var(--paper); }
+.lg.fam i { border-color: var(--fam); } .lg.doc i { border-color: var(--doc); } .lg.hyp i { border-color: var(--hyp); border-style: dashed; }
+.lg.pat i { border-color: var(--pat); border-style: dotted; } .lg.grp i { border-color: var(--grp); border-style: dashed; } .lg.live i { border-color: var(--live); }
+.tools { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.tools button, .tools a { font: inherit; font-size: 13px; padding: 6px 11px; border-radius: 6px; border: 1px solid var(--rule); background: var(--paper); color: var(--ink); cursor: pointer; text-decoration: none; }
+.tools button:hover, .tools a:hover { border-color: var(--edge); }
+#vp { position: relative; height: calc(100vh - 118px); min-height: 420px; overflow: hidden; touch-action: none; cursor: grab; background:
+  radial-gradient(circle, var(--rule) 1px, transparent 1px) 0 0 / 22px 22px; }
+#vp.drag { cursor: grabbing; }
+#cv { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
+#cv svg { position: absolute; left: 0; top: 0; overflow: visible; }
+.card { position: absolute; background: var(--paper); border: 2px solid var(--fam); border-radius: 9px; padding: 6px 9px; overflow: hidden; cursor: pointer; user-select: none; box-shadow: 0 1px 2px rgba(0,0,0,.06); }
+.card:hover { box-shadow: var(--shadow); z-index: 2; }
+.card .nm { font-weight: 650; font-size: 13.5px; line-height: 1.2; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.card .sb { font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card .yr { font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card.root { border-width: 3px; }
+.st-fam { border-color: var(--fam); } .st-doc { border-color: var(--doc); }
+.st-hyp { border-color: var(--hyp); border-style: dashed; } .st-pat { border-color: var(--pat); border-style: dotted; color: var(--muted); }
+.st-grp { border-color: var(--grp); border-style: dashed; } .st-live { border-color: var(--live); }
+.st-ghost { border-color: var(--pat); border-style: dotted; background: transparent; color: var(--muted); }
+.card.sel { box-shadow: 0 0 0 4px rgba(47,111,214,.25), var(--shadow); }
+#panel { position: fixed; right: 16px; top: 132px; width: 380px; max-height: calc(100vh - 150px); overflow: auto; background: var(--panel); border: 1px solid var(--rule); border-radius: 12px; box-shadow: var(--shadow); padding: 16px 18px; display: none; z-index: 10; }
+#panel.open { display: block; }
+#panel h2 { margin: 0 28px 2px 0; font-size: 18px; line-height: 1.25; }
+#panel .meta { color: var(--muted); font-size: 13px; margin-bottom: 10px; }
+#panel .badge { display: inline-block; font-size: 12px; padding: 1px 8px; border-radius: 10px; border: 1.5px solid; margin: 2px 0 10px; }
+#panel p { margin: 0 0 10px; }
+#panel ul { margin: 0 0 10px; padding-left: 18px; }
+#panel a { color: var(--fam); }
+#panel .x { position: absolute; right: 10px; top: 8px; border: 0; background: transparent; color: var(--muted); font-size: 22px; cursor: pointer; line-height: 1; }
+.below { max-width: 1100px; padding: 18px 20px 40px; }
+.below h2 { font-size: 17px; margin: 0 0 8px; }
+.places { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 10px 22px; padding: 0; margin: 0; list-style: none; }
+.places li { font-size: 14px; }
+.places b { display: block; }
+.note { color: var(--muted); font-size: 13px; margin-top: 14px; }
+@media (max-width: 700px) {
+  header { padding: 10px 14px 8px; }
+  header h1 { font-size: 19px; }
+  #vp { height: 72vh; }
+  #panel { left: 8px; right: 8px; top: auto; bottom: 8px; width: auto; max-height: 55vh; }
+}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>Родословная Нади</h1>
+    <div class="sub">Надя: папина линия - Болыко из-под Бобруйска и Алексеевы из Турковской Слободы, мамина - Прокопчики из Пасеки и Воротыни. Все места рядом, вокруг Бобруйска.</div>
+    <div class="legend" style="margin-top:8px">
+      <span class="lg doc"><i></i>найден в документах</span>
+      <span class="lg fam"><i></i>со слов семьи</span>
+      <span class="lg pat"><i></i>известен по отчеству</span>
+      <span class="lg hyp"><i></i>возможный родственник</span>
+      <span class="lg grp"><i></i>род по ревизиям, связь не доказана</span>
+      <span class="lg live"><i></i>живые</span>
+    </div>
+  </div>
+  <div class="tools">
+    <button id="zin" title="Крупнее">+</button>
+    <button id="zout" title="Мельче">-</button>
+    <button id="fit">Вся схема</button>
+    <a href="https://dmitryserafin.github.io/serafin-family-tree/">Дерево Димы</a>
+  </div>
+</header>
+<div id="vp"><div id="cv"><svg id="edges"></svg></div></div>
+<aside id="panel" aria-live="polite"><button class="x" id="px" aria-label="Закрыть">&times;</button><div id="pc"></div></aside>
+<section class="below">
+  <h2>Откуда семья</h2>
+  <ul class="places"><li><b>Пасека и Воротынь</b>Бобруйский р-н Могилевской обл., Беларусь. Прокопчики: Пасека выделилась из Воротыни около 1925 года. Приход - Свято-Троицкая церковь в Турках.</li><li><b>Турковская Слобода</b>Около 6 км от Пасеки, тот же приход Турки. Алексеевы; в деревне жили и старообрядцы.</li><li><b>Бобруйск и окрестности</b>Болыко (в документах чаще Балыко, Балыка): гнезда фамилии - Бортники с Малиновкой и Ковали со станцией Телуша.</li><li><b>Жлобин</b>Гомельская обл. По рассказу семьи, отсюда родом Катя, мать бабы Нюры.</li></ul>
+  <p class="note">Схему можно двигать и масштабировать (колесо мыши, щипок на телефоне). Нажмите на карточку, чтобы увидеть подробности и источники. Обновлено 7 ноября 2026 года.</p>
+</section>
+<script>
+const DATA = {"root": "nadya", "people": {"nadya": {"n": "Надя", "st": "live", "par": ["papa", "mama"]}, "papa": {"n": "Александр", "sub": "папа Нади", "st": "live", "par": ["nikolay", "olgaA"]}, "mama": {"n": "Мама Нади", "st": "live", "par": [null, "babushka"]}, "nikolay": {"n": "Николай Болыко", "r": "дед", "p": "Бобруйск", "st": "fam", "par": ["nikParents", null], "d": "<p>Отчество и годы пока неизвестны. В документах фамилию чаще пишут Балыко или Балыка. Гнезда фамилии под Бобруйском - Бортники с Малиновкой и Ковали со станцией Телуша; в документах 1914-1945 годов около 50 однофамильцев.<\/p><p>Выбрать нужную семью можно по отчеству и году рождения Николая: их легче всего найти в свидетельстве о рождении папы Нади.<\/p>"}, "nikParents": {"n": "Родители Николая", "sub": "семья назовет позже", "st": "ghost"}, "olgaA": {"n": "Ольга Харитоновна Болыко", "r": "бабушка", "sub": "урожд. Алексеева", "p": "Турковская Слобода", "st": "fam", "par": ["khariton", "praskovya"]}, "khariton": {"n": "Харитон Григорьевич Алексеев", "r": "прадед", "p": "Турковская Слобода", "st": "fam", "par": ["grigoriy", null], "sib": ["lazar"], "d": "<p>Турковская Слобода - деревня в нескольких километрах от Турок, сейчас Воротынский сельсовет Бобруйского района. В XIX веке там жили в основном переселенцы из России, в начале XX века построили старообрядческую церковь. Если Алексеевы были старообрядцами, запись о рождении Харитона может быть не в книгах Турок.<\/p><p>В открытых базах Харитон не найден.<\/p>"}, "praskovya": {"n": "Просковья Максимовна Алексеева", "r": "прабабушка", "st": "fam", "par": ["maksim", null], "d": "<p>Девичья фамилия неизвестна.<\/p>"}, "grigoriy": {"n": "Григорий Алексеев", "sub": "отец Харитона", "st": "pat"}, "maksim": {"n": "Максим", "sub": "отец Просковьи", "st": "pat"}, "lazar": {"n": "Лазарь Григорьевич Алексеев", "r": "возможный брат Харитона", "y": "1905-1944?", "p": "Турковская Слобода", "st": "hyp", "sp": "khristina", "d": "<p>То же отчество и та же деревня. Призван 23 июня 1941 года, пропал без вести. Общего документа с Харитоном нет.<\/p>", "src": [["Список Бобруйского военкомата (ЦАМО)", "https://obd-memorial.ru/html/info.htm?id=60737910"]]}, "khristina": {"n": "Христина Васильевна Алексеева", "sub": "жена Лазаря", "p": "Турковская Слобода", "st": "doc"}, "babushka": {"n": "Бабушка Нади", "sub": "урожд. Прокопчик", "st": "live", "par": ["vladimir", "annaE"]}, "vladimir": {"n": "Владимир Петрович Прокопчик", "r": "прадед", "p": "Пасека", "st": "fam", "par": ["petr", null], "sib": ["ivanP"]}, "petr": {"n": "Петр Прокопчик", "sub": "отец Владимира", "st": "pat"}, "ivanP": {"n": "Иван Петрович Прокопчик", "r": "возможный брат Владимира", "y": "1913-1944?", "p": "Воротынь", "st": "hyp", "d": "<p>Единственный Петрович среди Прокопчиков Воротынского сельсовета в военных базах. Пропал без вести в 1944 году; жена Прасковья Федоровна.<\/p>", "src": [["Список Бобруйского военкомата (ЦАМО)", "https://obd-memorial.ru/html/info.htm?id=58372760"]]}, "annaE": {"n": "Анна Евдокимовна Прокопчик", "r": "прабабушка", "sub": "баба Нюра", "p": "Пасека", "st": "fam", "par": ["evdokim", "katya"], "sib": ["bratA"], "d": "<p>Девичья и брачная фамилии - Прокопчик: в Воротыни и Пасеке это одна из двух главных фамилий.<\/p>"}, "evdokim": {"n": "Евдоким Прокопчик", "r": "прапрадед", "st": "fam"}, "katya": {"n": "Катя (Екатерина)", "r": "прапрабабушка", "sub": "родом, возможно, из Жлобина", "st": "fam"}, "bratA": {"n": "Брат Анны", "sub": "имя неизвестно", "st": "fam"}}};
+const P = DATA.people;
+const CW = 186, SW = 170, CH = 88, GAP = 14, CG = 26, VG = 62, ROWH = CH + VG, PAD = 50;
+const STL = {fam:'со слов семьи', doc:'найден в документах', hyp:'возможный родственник', pat:'известен по отчеству', grp:'род по ревизиям', live:'живые', ghost:'неизвестно'};
+function cw(p){ return p.st === 'grp' ? CW + 30 : (p._sib ? SW : CW); }
+function sibBlock(p){
+  if (p.sib) p.sib.sort((a, b) => (P[a].sp ? 1 : 0) - (P[b].sp ? 1 : 0));
+  let w = 0;
+  for (const sid of (p.sib||[])) { const s = P[sid]; s._sib = true; w += GAP + SW; if (s.sp) { P[s.sp]._sib = true; w += CG + SW; } }
+  return w;
+}
+function merge(C, k, l, r){ const e = C.get(k); if (!e) C.set(k, [l, r]); else { e[0] = Math.min(e[0], l); e[1] = Math.max(e[1], r); } }
+// Contour layout: for every subtree keep the left and right edge on each row (relative to its own card),
+// and push father's and mother's subtrees apart only as far as their closest rows require.
+function ext(id, side){
+  const p = P[id]; p._side = side;
+  const w = cw(p); let l = -w/2, r = w/2;
+  const sb = sibBlock(p);
+  if (sb) { if (side === 'R') r += sb; else l -= sb; }
+  const C = new Map(); C.set(0, [l, r]);
+  const f = p.par && p.par[0], m = p.par && p.par[1];
+  p._d = 0;
+  if (f && m) {
+    const cf = ext(f, 'L'), cm = ext(m, 'R');
+    let D = cw(P[f])/2 + CG + cw(P[m])/2;
+    for (const [k, e] of cf) { const o = cm.get(k); if (o) D = Math.max(D, e[1] - o[0] + (k === 0 ? CG : GAP)); }
+    p._d = D/2;
+    for (const [k, e] of cf) merge(C, k + 1, e[0] - D/2, e[1] - D/2);
+    for (const [k, e] of cm) merge(C, k + 1, e[0] + D/2, e[1] + D/2);
+  } else if (f || m) {
+    const cq = ext(f || m, f ? 'L' : 'R');
+    for (const [k, e] of cq) merge(C, k + 1, e[0], e[1]);
+  }
+  return C;
+}
+const placed = [];
+function put(id, x, row){ const p = P[id]; p._x = x; p._row = row; placed.push(id); }
+function place(id, x, row){
+  const p = P[id]; put(id, x, row);
+  const w = cw(p);
+  let edge = p._side === 'R' ? x + w/2 : x - w/2;
+  for (const sid of (p.sib||[])) {
+    const s = P[sid];
+    if (p._side === 'R') {
+      const sx = edge + GAP + SW/2; put(sid, sx, row); edge = sx + SW/2;
+      if (s.sp) { const px = edge + CG + SW/2; put(s.sp, px, row); edge = px + SW/2; }
+    } else {
+      const sx = edge - GAP - SW/2; put(sid, sx, row); edge = sx - SW/2;
+      if (s.sp) { const px = edge - CG - SW/2; put(s.sp, px, row); edge = px - SW/2; }
+    }
+  }
+  const f = p.par && p.par[0], m = p.par && p.par[1];
+  if (f && m) { place(f, x - p._d, row + 1); place(m, x + p._d, row + 1); }
+  else if (f || m) place(f || m, x, row + 1);
+}
+const root = DATA.root;
+const E = ext(root, 'C');
+place(root, 0, 0);
+let minX = Infinity, maxX = -Infinity, maxRow = 0;
+for (const id of placed) { const p = P[id]; const w = cw(p); minX = Math.min(minX, p._x - w/2); maxX = Math.max(maxX, p._x + w/2); maxRow = Math.max(maxRow, p._row); }
+const W = maxX - minX + PAD*2, H = (maxRow + 1) * ROWH - VG + PAD*2;
+const X = x => x - minX + PAD, Y = row => (maxRow - row) * ROWH + PAD;
+const cv = document.getElementById('cv'), svg = document.getElementById('edges');
+cv.style.width = W + 'px'; cv.style.height = H + 'px';
+svg.setAttribute('width', W); svg.setAttribute('height', H);
+const NS = 'http://www.w3.org/2000/svg';
+function line(x1, y1, x2, y2, dashed){
+  const l = document.createElementNS(NS, 'path');
+  l.setAttribute('d', `M${x1},${y1} L${x2},${y2}`);
+  l.setAttribute('stroke', 'var(--edge)'); l.setAttribute('stroke-width', '2'); l.setAttribute('fill', 'none');
+  if (dashed) l.setAttribute('stroke-dasharray', '6 5');
+  svg.appendChild(l);
+}
+for (const id of placed) {
+  const p = P[id];
+  const f = p.par && p.par[0], m = p.par && p.par[1];
+  if (!f && !m) continue;
+  const kids = [id, ...(p.sib||[])];
+  const topY = Y(p._row), busY = topY - VG/2, upRow = p._row + 1, midY = Y(upRow) + CH/2;
+  let dropX, dropTop;
+  if (f && m) {
+    const F = P[f], M = P[m];
+    line(X(F._x) + cw(F)/2, midY, X(M._x) - cw(M)/2, midY, false);
+    dropX = X(p._x); dropTop = midY;
+  } else {
+    const Q = P[f || m]; dropX = X(Q._x); dropTop = Y(upRow) + CH;
+  }
+  const hypUp = p.lk === 'hyp';
+  line(dropX, dropTop, dropX, busY, hypUp);
+  const xs = kids.map(k => X(P[k]._x));
+  const lo = Math.min(dropX, ...xs), hi = Math.max(dropX, ...xs);
+  if (hi > lo) line(lo, busY, hi, busY, hypUp);
+  for (const k of kids) line(X(P[k]._x), busY, X(P[k]._x), topY, P[k].st === 'hyp' || hypUp);
+  for (const k of (p.sib||[])) { const s = P[k]; if (s.sp) { const S = P[s.sp]; const a = Math.min(X(s._x), X(S._x)), b = Math.max(X(s._x), X(S._x)); line(a + SW/2, topY + CH/2, b - SW/2, topY + CH/2, false); } }
+}
+function esc(t){ return String(t == null ? '' : t).replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'})[c]); }
+for (const id of placed) {
+  const p = P[id]; const w = cw(p);
+  const d = document.createElement('div');
+  d.className = 'card st-' + (p.st || 'fam') + (id === root ? ' root' : '');
+  d.style.left = (X(p._x) - w/2) + 'px'; d.style.top = Y(p._row) + 'px'; d.style.width = w + 'px'; d.style.height = CH + 'px';
+  const yrs = [p.y, p.p].filter(Boolean).join(' · ');
+  d.innerHTML = `<div class="nm">${esc(p.n)}</div>` + (p.sub ? `<div class="sb">${esc(p.sub)}</div>` : '') + (yrs ? `<div class="yr">${esc(yrs)}</div>` : '');
+  d.dataset.id = id; cv.appendChild(d);
+}
+const vp = document.getElementById('vp');
+let T = {x: 0, y: 0, k: 1};
+function apply(){ cv.style.transform = `translate(${T.x}px,${T.y}px) scale(${T.k})`; }
+function fit(){
+  const r = vp.getBoundingClientRect();
+  const k = Math.min(r.width / W, r.height / H, 1);
+  T.k = Math.max(k, 0.08); T.x = (r.width - W * T.k) / 2; T.y = (r.height - H * T.k) / 2; apply();
+}
+function focusRoot(k){
+  const r = vp.getBoundingClientRect(); const p = P[root];
+  T.k = k; T.x = r.width/2 - X(p._x) * k; T.y = r.height - (Y(0) + CH + 30) * k; apply();
+}
+function zoomAt(f, cx, cy){
+  const nk = Math.min(2.5, Math.max(0.08, T.k * f));
+  T.x = cx - (cx - T.x) * nk / T.k; T.y = cy - (cy - T.y) * nk / T.k; T.k = nk; apply();
+}
+vp.addEventListener('wheel', e => { e.preventDefault(); const r = vp.getBoundingClientRect(); zoomAt(Math.exp(-e.deltaY * 0.0016), e.clientX - r.left, e.clientY - r.top); }, {passive: false});
+const ptr = new Map(); let moved = false, start = null, pinch = null;
+vp.addEventListener('pointerdown', e => { vp.setPointerCapture(e.pointerId); ptr.set(e.pointerId, {x: e.clientX, y: e.clientY}); moved = false; start = {x: e.clientX, y: e.clientY, tx: T.x, ty: T.y}; if (ptr.size === 2) { const [a, b] = [...ptr.values()]; pinch = {d: Math.hypot(a.x - b.x, a.y - b.y), k: T.k, tx: T.x, ty: T.y, cx: (a.x + b.x)/2, cy: (a.y + b.y)/2}; } vp.classList.add('drag'); });
+vp.addEventListener('pointermove', e => {
+  if (!ptr.has(e.pointerId)) return; ptr.set(e.pointerId, {x: e.clientX, y: e.clientY});
+  const r = vp.getBoundingClientRect();
+  if (ptr.size === 2 && pinch) { const [a, b] = [...ptr.values()]; const d = Math.hypot(a.x - b.x, a.y - b.y); const nk = Math.min(2.5, Math.max(0.08, pinch.k * d / pinch.d)); const cx = pinch.cx - r.left, cy = pinch.cy - r.top; T.x = cx - (cx - pinch.tx) * nk / pinch.k; T.y = cy - (cy - pinch.ty) * nk / pinch.k; T.k = nk; apply(); moved = true; return; }
+  if (start) { const dx = e.clientX - start.x, dy = e.clientY - start.y; if (Math.abs(dx) + Math.abs(dy) > 4) moved = true; T.x = start.tx + dx; T.y = start.ty + dy; apply(); }
+});
+function up(e){ ptr.delete(e.pointerId); if (ptr.size < 2) pinch = null; if (ptr.size === 0) { start = null; vp.classList.remove('drag'); } else { const v = [...ptr.values()][0]; start = {x: v.x, y: v.y, tx: T.x, ty: T.y}; } }
+vp.addEventListener('pointerup', e => { const wasMoved = moved; up(e); if (!wasMoved) { const el = document.elementFromPoint(e.clientX, e.clientY); const c = el && el.closest('.card'); if (c) openPanel(c.dataset.id); } });
+vp.addEventListener('pointercancel', up);
+const panel = document.getElementById('panel'), pc = document.getElementById('pc');
+function openPanel(id){
+  const p = P[id]; document.querySelectorAll('.card.sel').forEach(c => c.classList.remove('sel'));
+  const c = document.querySelector(`.card[data-id="${id}"]`); if (c) c.classList.add('sel');
+  const col = {fam:'var(--fam)', doc:'var(--doc)', hyp:'var(--hyp)', pat:'var(--pat)', grp:'var(--grp)', live:'var(--live)', ghost:'var(--pat)'}[p.st || 'fam'];
+  let h = `<h2>${esc(p.n)}</h2>`;
+  const meta = [p.r, p.sub, p.y, p.p].filter(Boolean).map(esc).join(' · ');
+  if (meta) h += `<div class="meta">${meta}</div>`;
+  h += `<span class="badge" style="border-color:${col};color:${col}">${STL[p.st || 'fam']}</span>`;
+  if (p.d) h += p.d;
+  if (p.src && p.src.length) h += '<p><b>Источники</b></p><ul>' + p.src.map(s => `<li><a href="${s[1]}" target="_blank" rel="noopener">${esc(s[0])}</a></li>`).join('') + '</ul>';
+  pc.innerHTML = h; panel.classList.add('open');
+}
+document.getElementById('px').onclick = () => { panel.classList.remove('open'); document.querySelectorAll('.card.sel').forEach(c => c.classList.remove('sel')); };
+document.getElementById('zin').onclick = () => { const r = vp.getBoundingClientRect(); zoomAt(1.25, r.width/2, r.height/2); };
+document.getElementById('zout').onclick = () => { const r = vp.getBoundingClientRect(); zoomAt(0.8, r.width/2, r.height/2); };
+document.getElementById('fit').onclick = fit;
+if (window.innerWidth < 700) focusRoot(0.62); else fit();
+addEventListener('resize', () => { if (window.innerWidth >= 700) fit(); });
+</script>
+</body>
+</html>
